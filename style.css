@@ -1,0 +1,141 @@
+/* Flashlight Overlay */
+:root {
+  --cursorX: 50vw;
+  --cursorY: 50vh;
+}
+:root:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 30vmax at var(--cursorX) var(--cursorY),
+    rgba(136, 136, 136, 0.2) 0%, /* Cor mais clara e mais transparente */
+    rgba(175, 175, 175, 0.1) 50%, /* Cor mais clara com um toque de brilho */
+    rgba(175, 175, 175, 0.05) 80%  /* Mais desfocado e mais brilhante */
+  );
+}
+
+::-moz-selection, ::selection { /* Code for Firefox */
+  background: #593434;
+}
+
+.container, html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background-color: #262626;
+  color: #e3e3e3;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+h1 {
+  font-size: 380%;
+  color: #A62E38;
+  font-family: 'MrRobot', sans-serif;
+}
+
+.container {
+  display: flex;
+}
+
+.left-side, .right-side {
+  width: 50%;
+  height: 100%;
+  padding: 5%;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+p {
+  color: rgb(191, 191, 191);
+  text-align: justify;
+}
+
+strong {
+  color: #A62E38;
+}
+
+.right-side {
+  float: right;
+}
+
+a {
+  color: #A62E38;
+}
+
+/* Social Media Links */
+
+.social-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  margin-top: 20%;
+}
+
+.social-links li {
+  margin-right: 10px;
+}
+
+.social-links li a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background-color: #0077B5;
+  color: #fff;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+/* Style for the GitHub icon */
+.social-links li:nth-child(2) a {
+  background-color: #333;
+}
+
+.social-links li:nth-child(3) a {
+  background-color: #BB001B;
+}
+
+/* Collapsibles */
+
+.collapsible {
+  background-color: #593434;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  margin: 5px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active,
+.collapsible:hover {
+  background-color: #732F35;
+}
+
+.collapsible:after {
+  content: "\002B";
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
