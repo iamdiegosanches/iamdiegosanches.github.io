@@ -18,7 +18,11 @@
   );
 }
 
-::-moz-selection, ::selection { /* Code for Firefox */
+::-moz-selection { /* Code for Firefox */
+  background: #593434;
+}
+
+::selection {
   background: #593434;
 }
 
@@ -49,6 +53,10 @@ h1 {
   box-sizing: border-box;
 }
 
+.right-side {
+  float: right;
+}
+
 p {
   color: rgb(191, 191, 191);
   text-align: justify;
@@ -58,12 +66,21 @@ strong {
   color: #A62E38;
 }
 
-.right-side {
-  float: right;
-}
-
 a {
   color: #A62E38;
+}
+
+.job-title {
+  margin-bottom: 1px;
+}
+
+.company-name {
+  margin-top: 5px;
+  font-size: smaller;
+}
+
+.date-range {
+  font-size: smaller;
 }
 
 /* Social Media Links */
@@ -138,4 +155,40 @@ a {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .social-links {
+    list-style: none;
+    display: flex;
+    margin-top: 10%;
+  }
+
+  .left-side, .right-side {
+    width: 100%;
+    height: auto;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+}
+
+@media screen and (max-width: 565) {
+
+}
+
+@media screen and (max-width: 400px) {
+  h1 {
+    font-size: 250%;
+  }
+
+  h2 {
+    font-size: 150%;
+  }
+
 }
