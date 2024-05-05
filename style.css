@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Rowdies:wght@300;400;700&display=swap');
+
 /* Flashlight Overlay */
 :root {
   --cursorX: 50vw;
@@ -36,9 +38,9 @@
 }
 
 h1 {
-  font-size: 380%;
+  font-size: 490%;
   color: #A62E38;
-  font-family: 'MrRobot', sans-serif;
+  font-family: 'Rowdies', sans-serif;
 }
 
 .container {
