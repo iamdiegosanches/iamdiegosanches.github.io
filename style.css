@@ -1,196 +1,281 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Rowdies:wght@300;400;700&display=swap');
-
-/* Flashlight Overlay */
+/* Reset Básico com Vibe Retro */
 :root {
-  --cursorX: 50vw;
-  --cursorY: 50vh;
-}
-:root:before {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  pointer-events: none;
-  background: radial-gradient(
-    circle 30vmax at var(--cursorX) var(--cursorY),
-    rgba(136, 136, 136, 0.2) 0%, /* Cor mais clara e mais transparente */
-    rgba(175, 175, 175, 0.1) 50%, /* Cor mais clara com um toque de brilho */
-    rgba(175, 175, 175, 0.05) 80%  /* Mais desfocado e mais brilhante */
-  );
+    --bg-color: #050505;
+    --main-green: #00ff41;
+    --main-purple: #bd00ff;
+    --win-gray: #c0c0c0;
+    --win-dark: #808080;
+    --text-color: #e0e0e0;
+    --scanline-color: rgba(0, 0, 0, 0.5);
 }
 
-::-moz-selection { /* Code for Firefox */
-  background: #593434;
+* {
+    box-sizing: border-box;
 }
 
-::selection {
-  background: #593434;
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'VT323', monospace; /* Fonte estilo terminal */
+    font-size: 19px;
+    overflow-x: hidden;
 }
 
-.container, html, body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  background-color: #262626;
-  color: #e3e3e3;
-  font-family: 'Ubuntu', sans-serif;
+/* Efeito de Scanlines (TV antiga) */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 999;
 }
 
-h1 {
-  font-size: 490%;
-  color: #A62E38;
-  font-family: 'Rowdies', sans-serif;
+/* Elementos flutuantes caóticos */
+.floating-decoration {
+    position: fixed;
+    color: rgba(0, 255, 65, 0.2);
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.8rem;
+    z-index: -1;
+    transform: rotate(-5deg);
 }
 
-.container {
-  display: flex;
+/* Layout Principal */
+.main-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.left-side, .right-side {
-  width: 50%;
-  height: 100%;
-  padding: 5%;
-  overflow-y: auto;
-  box-sizing: border-box;
+.container-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr; /* Sidebar fixa, conteúdo flexível */
+    gap: 20px;
 }
 
-.right-side {
-  float: right;
+/* Cabeçalho */
+.cyber-header {
+    margin-bottom: 30px;
+    text-align: center;
+    border-bottom: 2px dashed var(--main-purple);
 }
 
-p {
-  color: rgb(191, 191, 191);
-  text-align: justify;
+h1.glitch {
+    font-family: 'Press Start 2P', cursive;
+    color: var(--main-purple);
+    text-shadow: 2px 2px var(--main-green);
+    font-size: 2rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
 }
 
-strong {
-  color: #A62E38;
+.warning-bar {
+    background: var(--main-green);
+    color: black;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
 }
 
-a {
-  color: #A62E38;
+/* Estilo das "Janelas" */
+.neo-window {
+    background: #111;
+    border: 2px solid var(--win-gray);
+    box-shadow: 5px 5px 0px #000;
+    margin-bottom: 20px;
+    position: relative;
 }
 
-.job-title {
-  margin-bottom: 1px;
+.window-bar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: white;
+    padding: 2px 5px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border-bottom: 2px solid var(--win-gray);
+    letter-spacing: 1px;
 }
 
-.company-name {
-  margin-top: 5px;
-  font-size: smaller;
+.window-content {
+    padding: 15px;
 }
 
-.date-range {
-  font-size: smaller;
+/* Sidebar Profile */
+.pixel-avatar {
+    width: 100px;
+    height: 100px;
+    image-rendering: pixelated; /* Mantém a imagem nítida ao escalar */
+    border: 2px solid var(--main-green);
+    display: block;
+    margin: 0 auto 10px;
 }
 
-/* Social Media Links */
-
-.social-links {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  margin-top: 20%;
+.role-title {
+    text-align: center;
+    color: var(--main-green);
+    border-bottom: 1px solid var(--main-green);
+    padding-bottom: 5px;
 }
 
-.social-links li {
-  margin-right: 10px;
+.status-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
 }
 
-.social-links li a {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  background-color: #0077B5;
-  color: #fff;
-  border-radius: 50%;
-  text-decoration: none;
-  font-size: 24px;
+.social-matrix {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
 }
 
-/* Style for the GitHub icon */
-.social-links li:nth-child(2) a {
-  background-color: #333;
+.retro-btn {
+    background: black;
+    color: var(--main-green);
+    border: 1px solid var(--main-green);
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.6rem;
 }
 
-.social-links li:nth-child(3) a {
-  background-color: #BB001B;
+.retro-btn:hover {
+    background: var(--main-green);
+    color: black;
+    box-shadow: 0 0 10px var(--main-green);
 }
 
-/* Collapsibles */
+/* Conteúdo */
+.terminal-text p {
+    margin: 5px 0;
+    color: #eee;
+}
 
+.active-job {
+    border-left: 3px solid var(--main-green);
+    padding-left: 10px;
+    background: rgba(0, 255, 65, 0.05);
+}
+
+.blink {
+    animation: blinker 1.5s linear infinite;
+    color: var(--main-green);
+}
+
+@keyframes blinker {
+    50% { opacity: 0; }
+}
+
+.dashed {
+    border: 0;
+    border-top: 1px dashed var(--main-purple);
+    margin: 15px 0;
+}
+
+/* Skills */
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-tag {
+    background: #222;
+    border: 1px solid var(--main-purple);
+    color: var(--main-purple);
+    padding: 2px 8px;
+    font-size: 0.9rem;
+}
+
+.comment {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+/* Projetos - Collapsible Retro */
 .collapsible {
-  background-color: #593434;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
-  margin: 5px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
+    background-color: #333;
+    color: var(--main-green);
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid var(--main-green);
+    text-align: left;
+    outline: none;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    margin-top: 5px;
 }
 
-.active,
-.collapsible:hover {
-  background-color: #732F35;
-}
-
-.collapsible:after {
-  content: "\002B";
-  color: white;
-  font-weight: bold;
-  float: right;
-  margin-left: 5px;
-}
-
-.active:after {
-  content: "\2212";
+.active, .collapsible:hover {
+    background-color: var(--main-green);
+    color: black;
 }
 
 .content {
-  padding: 0 18px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
+    padding: 0 10px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background: #111;
+    border-left: 1px solid var(--main-green);
+    border-right: 1px solid var(--main-green);
 }
 
-@media screen and (max-width: 700px) {
-  .container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .social-links {
-    list-style: none;
-    display: flex;
-    margin-top: 10%;
-  }
-
-  .left-side, .right-side {
-    width: 100%;
-    height: auto;
-    overflow-y: auto;
-    box-sizing: border-box;
-  }
-
+.content p {
+    font-size: 0.9rem;
 }
 
-@media screen and (max-width: 565) {
-
+.content a {
+    color: var(--main-purple);
+    text-decoration: none;
+    font-weight: bold;
 }
 
-@media screen and (max-width: 400px) {
-  h1 {
-    font-size: 250%;
-  }
+/* Footer */
+.footer-glitch {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 0.7rem;
+    color: #555;
+    border-top: 1px solid #333;
+    padding-top: 10px;
+}
 
-  h2 {
-    font-size: 150%;
-  }
+.spinning-cat {
+  padding-top: 30px;
+}
 
+/* RESPONSIVIDADE (Mobile) */
+@media screen and (max-width: 768px) {
+    .container-grid {
+        grid-template-columns: 1fr; /* Coluna única */
+    }
+
+    h1.glitch {
+        font-size: 1.5rem;
+    }
+
+    .sidebar-profile {
+        order: -1; /* Perfil aparece primeiro */
+    }
+    
+    .floating-decoration {
+        display: none; /* Remove poluição visual em telas pequenas */
+    }
 }

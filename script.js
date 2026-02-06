@@ -1,3 +1,4 @@
+// Efeito de Accordion para os projetos
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
@@ -5,6 +6,8 @@ for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function () {
     this.classList.toggle("active");
     var content = this.nextElementSibling;
+    
+    // Lógica para expandir/colapsar
     if (content.style.maxHeight) {
       content.style.maxHeight = null;
     } else {
@@ -13,13 +16,6 @@ for (i = 0; i < coll.length; i++) {
   });
 }
 
-function update(e) {
-  var x = e.clientX || e.touches[0].clientX
-  var y = e.clientY || e.touches[0].clientY
-
-  document.documentElement.style.setProperty('--cursorX', x + 'px')
-  document.documentElement.style.setProperty('--cursorY', y + 'px')
-}
-
-document.addEventListener('mousemove', update)
-document.addEventListener('touchmove', update)
+// Log temático no console do navegador
+console.log("%c SYSTEM BOOT... ", "background: #000; color: #00ff41; font-size: 20px");
+console.log("%c WELCOME TO THE WIRED ", "background: #000; color: #bd00ff; font-size: 15px");
