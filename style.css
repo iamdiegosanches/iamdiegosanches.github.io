@@ -261,6 +261,15 @@ h1.glitch {
   padding-top: 30px;
 }
 
+#snake-window {
+  cursor: default;
+  user-select: none; /* Evita selecionar texto ao arrastar */
+}
+
+#snake-window .window-bar {
+  cursor: move; /* Indica que é arrastável */
+}
+
 #terminal-container {
   background-color: #000000;
   color: #09ff00;
