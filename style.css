@@ -261,6 +261,43 @@ h1.glitch {
   padding-top: 30px;
 }
 
+#terminal-container {
+  background-color: #000000;
+  color: #09ff00;
+  font-size: 15px;
+  font-family: 'Courier New', Courier, monospace;
+  padding: 20px;
+  height: 200px;
+  overflow-y: auto;
+  position: relative;
+  outline: 1px solid #e0e0e0; 
+
+}
+
+.prompt {
+  color: #ffffff;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+#terminal-input {
+  background: transparent;
+  border: none;
+  color: #00ff00;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  width: 70%;
+}
+
+/* Scrollbar estilizada para não quebrar o clima */
+#terminal-container::-webkit-scrollbar {
+  width: 8px;
+}
+#terminal-container::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+}
+
 /* RESPONSIVIDADE (Mobile) */
 @media screen and (max-width: 768px) {
     .container-grid {
