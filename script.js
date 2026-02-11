@@ -24,6 +24,10 @@ for (i = 0; i < coll.length; i++) {
 const historyElement = document.getElementById('terminal-history');
 const inputElement = document.getElementById('terminal-input');
 
+// Logica para o historico
+let commandHistory = [];
+let historyIndex = -1;
+
 const commands = {
   help: () => "Comandos disponíveis: help, about, clear, snake",
   about: () => "Sou o Diego, um desenvolvedor focado",
@@ -39,20 +43,46 @@ const commands = {
 
 inputElement.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
-    const fullCommand = inputElement.value.trim().toLowerCase();
-    const [cmd, ...args] = fullCommand.split(' '); // Já separa argumentos caso precise
+    const fullCommand = inputElement.value.trim();
+    
+    if (fullCommand !== "") {
+      commandHistory.push(fullCommand);
+      historyIndex = commandHistory.length;
+      
+      const cmd = fullCommand.toLowerCase().split(' ')[0];
+      const args = fullCommand.split(' ').slice(1);
 
-    addLine(`<span class="prompt">user@diegosanches:~$</span> ${fullCommand}`);
+      addLine(`<span class="prompt">user@diegosanches:~$</span> ${fullCommand}`);
 
-    if (commands[cmd]) {
-      const response = commands[cmd](args);
-      if (response) addLine(response);
-    } else if (fullCommand !== "") {
-      addLine(`Comando não encontrado: ${cmd}. Digite 'help' para ajuda.`);
+      if (commands[cmd]) {
+        const response = commands[cmd](args);
+        if (response) addLine(response);
+      } else {
+        addLine(`Comando não encontrado: ${cmd}. Digite 'help' para ajuda.`);
+      }
     }
 
     inputElement.value = '';
     historyElement.scrollTop = historyElement.scrollHeight; 
+  } 
+  
+  else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (historyIndex > 0) {
+      historyIndex--;
+      inputElement.value = commandHistory[historyIndex];
+    }
+  } 
+  
+  else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (historyIndex < commandHistory.length - 1) {
+      historyIndex++;
+      inputElement.value = commandHistory[historyIndex];
+    } else {
+      historyIndex = commandHistory.length;
+      inputElement.value = '';
+    }
   }
 });
 
