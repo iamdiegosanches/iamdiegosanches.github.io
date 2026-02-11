@@ -144,6 +144,7 @@
 
             </main>
         </div>
+
         <div id="terminal-container">
             <div id="terminal-history"></div>
             <div class="input-line">
@@ -151,6 +152,16 @@
                 <input type="text" id="terminal-input" autofocus>
             </div>
         </div>
+
+        <div id="snake-window" class="neo-window" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; width: 320px;">
+            <div class="window-bar">snake_exe.bat <span style="float:right; cursor:pointer;" onclick="closeSnake()">[X]</span></div>
+            <div class="window-content" style="background-color: #9bbc0f; display: flex; flex-direction: column; align-items: center; padding: 10px;">
+                <canvas id="snakeGame" width="300" height="300" style="border: 2px solid #0f380f; background-color: #8bac0f;"></canvas>
+                <div id="snake-score" style="color: #0f380f; font-family: 'VT323', monospace; margin-top: 5px;">SCORE: 000</div>
+                <div id="best-score" style="color: #0f380f; font-family: 'VT323', monospace; margin-top: 5px;">BEST: 000</div>
+            </div>
+        </div>
+
         <footer class="footer-glitch">
             <p>COPYRIGHT © 2026 DIEGO SANCHES. OPTIMIZED FOR NETSCAPE NAVIGATOR 4.0</p>
         </footer>
