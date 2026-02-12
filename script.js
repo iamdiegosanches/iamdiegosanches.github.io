@@ -1,3 +1,5 @@
+import { runWired } from './src/wired/interpreter.js';
+
 // Efeito de Accordion para os projetos
 var coll = document.getElementsByClassName("collapsible");
 var i;
@@ -38,6 +40,10 @@ const commands = {
   snake: () => {
     startSnake();
     return "Iniciando snake_exe.bat...";
+  },
+  wired: () => {
+    document.getElementById('ide-window').style.display = 'block';
+    return "Iniciando wired_interpreter.exe...";
   }
 };
 
@@ -91,6 +97,8 @@ function addLine(text) {
   line.innerHTML = text;
   historyElement.appendChild(line);
 }
+
+
 
 // ========================================================================================
 // JOGO SNAKE
@@ -218,7 +226,8 @@ function changeDirection(event) {
     if([37, 38, 39, 40].includes(keyPressed)) event.preventDefault();
 }
 
-function closeSnake() {
+document.getElementById('close-snake').addEventListener('click', closeSnake);
+export function closeSnake() {
     document.getElementById('snake-window').style.display = 'none';
     clearInterval(gameInterval);
     document.removeEventListener('keydown', changeDirection);
@@ -255,3 +264,56 @@ function makeDraggable(windowElement) {
 }
 
 makeDraggable(document.getElementById('snake-window'));
+makeDraggable(document.getElementById('ide-window'));
+
+// ========================================================================================
+// WIRED
+// ========================================================================================
+
+const btnPlay = document.getElementById('btn-play');
+const codeEditor = document.getElementById('code-editor');
+const ideOutput = document.getElementById('ide-output');
+
+const examplePrograms = {
+    clear: "-- Comece seu programa abaixo\n",
+    hello: "-- Bem-vindo à Wired\nSIGNAL power = 100\nEMIT power",
+    calc: "-- Cálculos de sinal\nSIGNAL base = 50\nSIGNAL boost = base * 2\nEMIT boost + 10",
+    error: "-- Teste de erro\nEMIT sinal_inexistente"
+};
+
+const dropdown = document.getElementById('example-programs');
+const editor = document.getElementById('code-editor');
+
+dropdown.addEventListener('change', (e) => {
+    if (examplePrograms[e.target.value]) {
+        editor.value = examplePrograms[e.target.value];
+    }
+});
+
+btnPlay.addEventListener('click', () => {
+    const code = codeEditor.value;
+    ideOutput.innerHTML = ''; 
+    
+    try {
+        const result = runWired(code);
+        const line = document.createElement('div');
+        line.textContent = `> ${result}`;
+        ideOutput.appendChild(line);
+    } catch (err) {
+        const errorLine = document.createElement('div');
+        errorLine.style.color = "#ff5555";
+        errorLine.textContent = `!! ERROR: ${err.message}`;
+        ideOutput.appendChild(errorLine);
+    }
+});
+
+document.getElementById('close-ide').addEventListener('click', closeIDE);
+export function closeIDE() {
+    document.getElementById('ide-window').style.display = 'none';
+    clearInterval(gameInterval);
+    document.removeEventListener('keydown', changeDirection);
+}
+
+document.getElementById('btn-pause').addEventListener('click', () => {
+    document.getElementById('ide-output').innerHTML = "<span style='color: #win-dark'>Sincronização pausada...</span>";
+});

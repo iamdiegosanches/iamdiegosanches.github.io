@@ -154,11 +154,35 @@
         </div>
 
         <div id="snake-window" class="neo-window" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; width: 320px;">
-            <div class="window-bar">snake_exe.bat <span style="float:right; cursor:pointer;" onclick="closeSnake()">[X]</span></div>
+            <div class="window-bar">snake_exe.bat <span id="close-snake" style="float:right; cursor:pointer;" >[X]</span></div>
             <div class="window-content" style="background-color: #9bbc0f; display: flex; flex-direction: column; align-items: center; padding: 10px;">
                 <canvas id="snakeGame" width="300" height="300" style="border: 2px solid #0f380f; background-color: #8bac0f;"></canvas>
                 <div id="snake-score" style="color: #0f380f; font-family: 'VT323', monospace; margin-top: 5px;">SCORE: 000</div>
                 <div id="best-score" style="color: #0f380f; font-family: 'VT323', monospace; margin-top: 5px;">BEST: 000</div>
+            </div>
+        </div>
+
+        <div id="ide-window" class="neo-window" style="display: none; width: 500px;">
+            <div class="window-bar">
+                wired_interpreter.exe
+                <span id="close-ide" style="float:right; cursor:pointer;" >[X]</span>
+            </div>
+            <div class="ide-toolbar">
+                <select id="example-programs">
+                    <option value="clear">--selecione um exemplo--</option>
+                    <option value="hello">hello_world.wired</option>
+                    <option value="calc">calc.wired</option>
+                    <option value="error">error.wired</option>
+                </select>
+                <button id="btn-play" class="retro-btn">▶ PLAY</button>
+                <button id="btn-pause" class="retro-btn">II PAUSE</button>
+            </div>
+            <div class="window-content">
+                <textarea id="code-editor" spellcheck="false">-- Digite seu código aqui...</textarea>
+                <div id="ide-output-container">
+                    <div class="output-label">OUTPUT:</div>
+                    <div id="ide-output"></div>
+                </div>
             </div>
         </div>
 
@@ -167,6 +191,6 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
