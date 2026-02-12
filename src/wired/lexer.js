@@ -5,6 +5,7 @@ export const TOKEN_TYPES = {
     OPERATOR: 'OPERATOR',
     LBRACKET: 'LBRACKET',
     RBRACKET: 'RBRACKET',
+    LATENCY_ASSIGN: 'LATENCY_ASSIGN',
     ARROW: 'ARROW',
     EOF: 'EOF'
 };
@@ -17,12 +18,15 @@ export function tokenize(input) {
         [/^\s+/, null],
         [/^(--.*)/, null],
         [/^(SIGNAL|SYNC|TRANSFORM|EMIT)\b/, TOKEN_TYPES.KEYWORD],
+        [/^~>/, TOKEN_TYPES.LATENCY_ASSIGN],
+        [/^->/, TOKEN_TYPES.ARROW],
         [/^[a-zA-Z_][a-zA-Z0-9_]*/, TOKEN_TYPES.IDENTIFIER],
         [/^[0-9]+/, TOKEN_TYPES.NUMBER],
-        [/^[\+\-\*\/\=]/, TOKEN_TYPES.OPERATOR],,
+        [/^==/, TOKEN_TYPES.OPERATOR],
+        [/^[\+\-\*\/\=]/, TOKEN_TYPES.OPERATOR],
         [/^\[/, TOKEN_TYPES.LBRACKET],
         [/^\]/, TOKEN_TYPES.RBRACKET],
-        [/^->/, TOKEN_TYPES.ARROW],
+
     ];
 
     while (cursor < input.length) {

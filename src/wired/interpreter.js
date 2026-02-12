@@ -1,7 +1,7 @@
 import { tokenize } from './lexer.js';
 import { Parser } from './parser.js';
 
-export function runWired(code) {
+export async function runWired(code) {
     const tokens = tokenize(code);
     const parser = new Parser(tokens);
     const ast = parser.parse();
@@ -9,40 +9,57 @@ export function runWired(code) {
     const env = {};
     let lastOutput = null;
 
-    function evaluate(node) {
+    async function evaluate(node) {
         switch (node.type) {
             case 'Program':
-                node.body.forEach(stmt => evaluate(stmt));
+                for (const stmt of node.body) {
+                    await evaluate(stmt);
+                }
                 return lastOutput;
             
             case 'SignalDeclaration':
-                env[node.name] = evaluate(node.value);
-                return env[node.name];
+                env[node.name] = node.isLatent 
+                    ? { status: 'PROPAGATING', value: await evaluate(node.value), availableAt: Date.now() + 2000 }
+                    : { status: 'STABLE', value: await evaluate(node.value) };
+                return env[node.name].value;
             
             case 'EmitStatement':
-                lastOutput = evaluate(node.value);
+                lastOutput = await evaluate(node.value);
                 return lastOutput;
 
             case 'Literal':
                 return node.value;
+
+
+            case 'SyncStatement':
+                const signalName = node.sig.name;
+                const signal = env[signalName];
+                
+                if (!signal) throw new Error(`Sinal não definido: ${signalName}`);
+
+                if (signal.status === 'PROPAGATING') {
+                    const now = Date.now();
+                    if (now < signal.availableAt) {
+                        const waitTime = signal.availableAt - now;
+                        
+                        await new Promise(resolve => setTimeout(resolve, waitTime));
+                        
+                        signal.status = 'STABLE';
+                    }
+                }
+                return await evaluate(node.action);
             
             case 'Identifier':
-                if (!(node.name in env)) throw new Error(`Sinal não definido: ${node.name}`);
-                return env[node.name];
+                const s = env[node.name];
+                if (!s) throw new Error(`Sinal não definido: ${node.name}`);
+                // Se alguém tentar usar o sinal fora do SYNC e ele estiver instável, ainda barramos
+                if (s.status === 'PROPAGATING' && Date.now() < s.availableAt) {
+                    throw new Error(`ERRO DE HARDWARE: Sinal '${node.name}' instável (Jitter detectado).`);
+                }
+                return s.value;
 
             case 'BinaryExpression':
-                const leftVal = evaluate(node.left);
-                const rightVal = evaluate(node.right);
-                switch (node.operator) {
-                    case '+': return leftVal + rightVal;
-                    case '-': return leftVal - rightVal;
-                    case '*': return leftVal * rightVal;
-                    case '/': 
-                        if (rightVal === 0) throw new Error("Divisão por zero!");
-                        return leftVal / rightVal;
-                    default:
-                        throw new Error(`Operador desconhecido: ${node.operator}`);
-                }
+                return performMath(node.operator, await evaluate(node.left), await evaluate(node.right));
             
             default:
                 throw new Error(`Nó da AST desconhecido: ${node.type}`);

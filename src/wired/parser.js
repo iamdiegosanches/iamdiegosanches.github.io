@@ -26,16 +26,29 @@ export class Parser {
         if (token.type === 'KEYWORD') {
             if (token.value === 'SIGNAL') return this.parseSignal();
             if (token.value === 'EMIT') return this.parseEmit();
+            if (token.value === 'SYNC') return this.parseSync();
         }
         throw new Error(`Comando desconhecido: ${token.value}`);
     }
 
+    // SIGNAL sensor_core = 100
+    // SIGNAL output ~> sensor_core * 2
     parseSignal() {
         this.eat('KEYWORD');
         const name = this.eat('IDENTIFIER').value;
-        this.eat('OPERATOR');
+
+        const token = this.tokens[this.cursor];
+        let isLatent = false;
+
+        if (token.type == "LATENCY_ASSIGN") {
+            this.eat('LATENCY_ASSIGN');
+            isLatent = true;
+        } else {
+            this.eat('OPERATOR'); // '='
+        }
+
         const value = this.parseExpression();
-        return { type: 'SignalDeclaration', name, value };
+        return { type: 'SignalDeclaration', name, value, isLatent };
     }
 
     parseEmit() {
@@ -74,5 +87,15 @@ export class Parser {
             return { type: 'Identifier', name: token.value };
         }
         throw new Error(`Esperado número ou identificador, mas veio: ${token.value}`);
+    }
+
+    parseSync() {
+        this.eat('KEYWORD'); // SYNC
+        this.eat('LBRACKET'); // [
+        let sig = this.parsePrimary();
+        this.eat('RBRACKET'); // ]
+        this.eat('ARROW');    // ->
+        const action = this.parseStatement();
+        return { type: 'SyncStatement', sig, action };
     }
 }

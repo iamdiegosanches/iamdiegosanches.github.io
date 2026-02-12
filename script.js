@@ -290,12 +290,12 @@ dropdown.addEventListener('change', (e) => {
     }
 });
 
-btnPlay.addEventListener('click', () => {
+btnPlay.addEventListener('click', async () => {
     const code = codeEditor.value;
     ideOutput.innerHTML = ''; 
     
     try {
-        const result = runWired(code);
+        const result = await runWired(code);
         const line = document.createElement('div');
         line.textContent = `> ${result}`;
         ideOutput.appendChild(line);
