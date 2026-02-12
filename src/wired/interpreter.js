@@ -59,7 +59,7 @@ export async function runWired(code) {
                 return s.value;
 
             case 'BinaryExpression':
-                return performMath(node.operator, await evaluate(node.left), await evaluate(node.right));
+                return parser.performMath(node.operator, await evaluate(node.left), await evaluate(node.right));
             
             default:
                 throw new Error(`Nó da AST desconhecido: ${node.type}`);

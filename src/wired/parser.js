@@ -58,20 +58,27 @@ export class Parser {
     }
 
     parseExpression() {
+        let left = this.parseTerm();
+
+        while (this.cursor < this.tokens.length && 
+            (this.tokens[this.cursor].value === '+' || this.tokens[this.cursor].value === '-')) {
+            
+            const operator = this.eat('OPERATOR').value;
+            const right = this.parseTerm(); // Chama novamente o termo para o lado direito
+            left = { type: 'BinaryExpression', operator, left, right };
+        }
+        return left;
+    }
+
+    parseTerm() {
         let left = this.parsePrimary();
 
         while (this.cursor < this.tokens.length && 
-            this.tokens[this.cursor].type === 'OPERATOR' && 
-            this.tokens[this.cursor].value !== '=') {
+            (this.tokens[this.cursor].value === '*' || this.tokens[this.cursor].value === '/')) {
             
             const operator = this.eat('OPERATOR').value;
             const right = this.parsePrimary();
-            left = {
-                type: 'BinaryExpression',
-                operator,
-                left,
-                right
-            };
+            left = { type: 'BinaryExpression', operator, left, right };
         }
         return left;
     }
@@ -97,5 +104,25 @@ export class Parser {
         this.eat('ARROW');    // ->
         const action = this.parseStatement();
         return { type: 'SyncStatement', sig, action };
+    }
+
+    performMath(operador, left, right) {
+        switch(operador) {
+            case "+":
+                return left + right;
+
+            case "-":
+                return left - right;
+
+            case "*":
+                return left * right;
+
+            case "/":
+                if (right === 0) throw new Error("Divisão por zero detectada.");
+                return left / right;
+
+            default:
+                throw new Error(`Operador ${operador} não suportado.`);
+        }
     }
 }

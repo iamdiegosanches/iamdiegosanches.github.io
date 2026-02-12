@@ -5,6 +5,8 @@ export const TOKEN_TYPES = {
     OPERATOR: 'OPERATOR',
     LBRACKET: 'LBRACKET',
     RBRACKET: 'RBRACKET',
+    LPAR: 'LPAR',
+    RPAR: "RPAR",
     LATENCY_ASSIGN: 'LATENCY_ASSIGN',
     ARROW: 'ARROW',
     EOF: 'EOF'
@@ -24,6 +26,8 @@ export function tokenize(input) {
         [/^[0-9]+/, TOKEN_TYPES.NUMBER],
         [/^==/, TOKEN_TYPES.OPERATOR],
         [/^[\+\-\*\/\=]/, TOKEN_TYPES.OPERATOR],
+        [/^\(/, TOKEN_TYPES.LPAR],
+        [/^\)/, TOKEN_TYPES.RPAR],
         [/^\[/, TOKEN_TYPES.LBRACKET],
         [/^\]/, TOKEN_TYPES.RBRACKET],
 
